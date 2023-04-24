@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../components/button.dart';
 import '../components/text_field.dart';
+import '../resources/auth_methods.dart';
+import '../utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTab;
@@ -15,7 +20,27 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final usernameController = TextEditingController();
+  final bioController = TextEditingController();
+  Uint8List? image;
+  
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
+  }
+
   void signUserUp()async {
+
+    String res = await AuthMethods().signUpUser(
+        email: emailController.text,
+        password: passwordController.text,
+        username: usernameController.text,
+        bio: bioController.text, 
+        file: image!);
+
 
     showDialog(
       context: context,
@@ -58,6 +83,13 @@ class _RegisterPageState extends State<RegisterPage> {
     
     );
   }
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // set state because we need to display the image we selected on the circle avatar
+    setState(() {
+      image = im;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +101,31 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                spaceMedium(),
+                spaceSmall(),
                 //logo
-                const Icon(
-                  Icons.lock,
-                  size: 50,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  ),
+                Stack(
+                children: [
+                  image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(image!),
+                          backgroundColor: Colors.red,
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              'https://picsum.photos/200'),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(Icons.add_a_photo),
+                    ),
+                  )
+                ],
+              ),
                 spaceMedium(),
                 //create
                 const Text(
@@ -85,11 +135,21 @@ class _RegisterPageState extends State<RegisterPage> {
                     fontSize: 16,
                   ),
                 ),
-                spaceMedium(),
+                spaceSmall(),
                 //username textfield
                 MyTextField(
                   controller: emailController,
                   hintText: 'E-mail', obscureText: false,
+                ),
+                spaceSmall(),
+                MyTextField(
+                  controller: usernameController,
+                  hintText: 'Username', obscureText: false,
+                ),
+                spaceSmall(),
+                MyTextField(
+                  controller: bioController,
+                  hintText: 'Bio', obscureText: false,
                 ),
                 spaceSmall(),
                 //password textfield
