@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "663021204331",
+    "project_id": "friendskou",
+    "storage_bucket": "friendskou.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663021204331:android:c69e2a7c8697f7d601122e",
+        "android_client_info": {
+          "package_name": "com.example.friendskou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663021204331-po8t4948oaa7dd21pu9fbijj7qo43dgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYW-lurWsI4CPLPovtj9OVStjoyYqghKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663021204331-po8t4948oaa7dd21pu9fbijj7qo43dgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
