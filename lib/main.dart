@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:friendskou/pages/login_page.dart';
 import 'package:friendskou/resources/auth.dart';
 import 'utils/color.dart';
 import 'pages/register_page.dart';
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: colorWhite(),
+        primaryColor: colorGreen3(),
       ),
-      home: const AuthPage(),
+      home: AuthPage(),
       //home: const ResponsiveScreen(
         //mobileScreenLayout:MobileScreenLayout(),
         //webScreenLayout:WebScreenLayout(),

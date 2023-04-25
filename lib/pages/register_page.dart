@@ -2,10 +2,14 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:friendskou/utils/color.dart';
 import 'package:image_picker/image_picker.dart';
 import '../components/button.dart';
 import '../components/text_field.dart';
 import '../resources/auth_methods.dart';
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -23,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final usernameController = TextEditingController();
   final bioController = TextEditingController();
   Uint8List? image;
+  bool _isLoading = false;
   
   @override
   void dispose() {
@@ -32,16 +37,19 @@ class _RegisterPageState extends State<RegisterPage> {
     usernameController.dispose();
   }
 
-  void signUserUp()async {
+  void signUpUser() async {
+    // set loading to true
+    setState(() {
+      _isLoading = true;
+    });
 
+    // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
         email: emailController.text,
         password: passwordController.text,
         username: usernameController.text,
-        bio: bioController.text, 
+        bio: bioController.text,
         file: image!);
-
-
     showDialog(
       context: context,
       builder: (context){
@@ -82,7 +90,10 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     
     );
+     
+    
   }
+
   selectImage() async {
     Uint8List im = await pickImage(ImageSource.gallery);
     // set state because we need to display the image we selected on the circle avatar
@@ -90,6 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
       image = im;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +177,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true,
                  ),
                   spaceSmall(),
-                MyButton(
-                  text: 'Sign Up',
-                  onTab: signUserUp,
+                InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: registerbuton(),
                 ),
+                onTap: signUpUser,
+              ),
                 spaceMedium(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -194,6 +209,32 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Container registerbuton() {
+    return Container(
+      padding: const EdgeInsets.all(25),
+      width: double.infinity,
+      alignment: Alignment.center,
+      decoration: ShapeDecoration(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        color: colorGreen3(),
+      ),
+      child: !_isLoading
+          ? const Text(
+              'Log in',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            )
+          :CircularProgressIndicator(
+              color: colorWhite(),
+            ),
     );
   }
 

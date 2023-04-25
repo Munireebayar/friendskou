@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:friendskou/utils/color.dart';
 
 class MyButton extends StatelessWidget {
 
@@ -18,7 +19,7 @@ final Function()? onTab;
         padding: const EdgeInsets.all(25),
         margin: const EdgeInsets.symmetric(horizontal: 25.0),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 0, 0, 0),
+          color: colorGreen3(),
           borderRadius: BorderRadius.circular(8)
         ),
         child: Center(

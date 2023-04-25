@@ -131,9 +131,11 @@ class _LoginPageState extends State<LoginPage> {
                  ),
                   spaceSmall(),
                 
-                MyButton(
-                  text: 'Sign In',
-                  onTab:signUserIn,
+                InkWell(
+                  child: MyButton(
+                    text: 'Sign In',
+                    onTab:signUserIn,
+                  ),
                 ),
                 
                 spaceMedium(),
